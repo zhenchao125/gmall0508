@@ -22,7 +22,6 @@ class LoggerController {
         // 2. 落盘  使用日志的方式
         saveLog2File(logWithTS)
         // 3. 写入到kafka
-        
         send2Kafka(logWithTS)
         "ok"
     }

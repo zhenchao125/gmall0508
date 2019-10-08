@@ -19,6 +19,7 @@
         <module>gmall0508-common</module>
         <module>gmall0508-mock</module>
         <module>gmall0508-logger</module>
+        <module>gmall0508-realtime</module>
     </modules>
 
     <properties>
