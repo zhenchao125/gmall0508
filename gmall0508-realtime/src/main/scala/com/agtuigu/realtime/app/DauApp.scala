@@ -52,6 +52,7 @@ object DauApp {
             .groupByKey
             .map {
                 case (_, logIt) => logIt.toList.sortBy(_.ts).head
+//                case (_, logIt) => logIt.toList.minBy(_.ts)
             }
         
         // 2.2 写入到redis中 只写mid  (表示已经启动过的设备)
@@ -65,8 +66,15 @@ object DauApp {
             })
         })
         
+        import org.apache.phoenix.spark._
         // 3. 写到 hbase
-        
+        filteredDSteam.foreachRDD(rdd => {
+            rdd.saveToPhoenix(
+                "GMALL0508_DAU",
+                Seq("MID", "UID", "APPID", "AREA", "OS", "CH", "TYPE", "VS", "TS", "LOGDATE", "LOGHOUR"),
+                zkUrl = Some("hadoop201,hadoop202,hadoop203:2181")
+            )
+        })
         
         ssc.start()
         ssc.awaitTermination()
