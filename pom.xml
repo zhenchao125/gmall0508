@@ -21,6 +21,7 @@
         <module>gmall0508-logger</module>
         <module>gmall0508-realtime</module>
         <module>gmall0508-publisher</module>
+        <module>gmall0508-cannal</module>
     </modules>
 
     <properties>
