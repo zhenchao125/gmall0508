@@ -20,6 +20,7 @@
         <module>gmall0508-mock</module>
         <module>gmall0508-logger</module>
         <module>gmall0508-realtime</module>
+        <module>gmall0508-publisher</module>
     </modules>
 
     <properties>
