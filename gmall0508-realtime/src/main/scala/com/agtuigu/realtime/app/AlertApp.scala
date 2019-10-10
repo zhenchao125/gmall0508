@@ -58,7 +58,7 @@ object AlertApp {
                                 itemSet.add(eventLog.itemId) // 优惠券对应的商品
                             } else if (eventLog.eventId == "clickItem") { // 如果有浏览商品, 则该设备不会产生预警
                                 isClickItem = true
-                                break()
+                                break
                             }
                         })
                     }

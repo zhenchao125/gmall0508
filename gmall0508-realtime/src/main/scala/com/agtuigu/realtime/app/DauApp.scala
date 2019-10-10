@@ -35,6 +35,7 @@ object DauApp {
         // 2. redis 去重
         // 2.1 从redis读取已经启动过的设备, 启动过的设备给过滤掉
         var filteredDSteam: DStream[StartupLog] = startupLogDStream.transform(rdd => {
+            // ...
             // 2.1.1 读取到已经启动过的设备
             val client: Jedis = RedisUtil.getJedisClient
             val uidSet: util.Set[String] = client.smembers(ConstantUtil.STARTUP_TOPIC + ":" + new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
