@@ -7,4 +7,5 @@ package com.atguigu.gmall0508.common
 object ConstantUtil {
     val STARTUP_TOPIC: String = "startup0508"
     val EVENT_TOPIC: String = "event0508"
+    val ORDER_TOPIC: String = "order_info0508"
 }
