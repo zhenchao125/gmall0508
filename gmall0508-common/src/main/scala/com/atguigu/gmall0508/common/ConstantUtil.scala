@@ -10,7 +10,4 @@ object ConstantUtil {
     val ORDER_TOPIC: String = "order_info0508"
     
     val ORDER_TABLE_NAME: String = "GMALL0508_ORDER_INFO"
-    
-    
-    
 }

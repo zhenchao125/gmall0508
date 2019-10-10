@@ -37,6 +37,7 @@ object OrderApp {
                 zkUrl = Some("hadoop201,hadoop202,hadoop203:2181")
             )
         })
+        
         ssc.start()
         ssc.awaitTermination()
     }
