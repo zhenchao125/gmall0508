@@ -8,6 +8,7 @@ import com.agtuigu.realtime.bean.{AlertInfo, EventLog}
 import com.agtuigu.realtime.util.MyKafkaUtil
 import com.alibaba.fastjson.JSON
 import com.atguigu.gmall0508.common.ConstantUtil
+import com.atguigu.gmall0508.common.util.ESUtil
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.dstream.{DStream, InputDStream}
 import org.apache.spark.streaming.{Seconds, StreamingContext}
@@ -62,19 +63,21 @@ object AlertApp {
                             }
                         })
                     }
+                    println((!isClickItem && uidSet.size() >= 3, AlertInfo(mid, uidSet, itemSet, eventSet, System.currentTimeMillis())))
                     // (是否预警, 预警样例对象)
                     (!isClickItem && uidSet.size() >= 3, AlertInfo(mid, uidSet, itemSet, eventSet, System.currentTimeMillis()))
                 }
             }
         
         //
-        alertInfoDStream.foreachRDD(rdd => {
-            rdd.foreach{
-                case (isAlert, alterInfo) => {
-                    //
-                }
-            }
+        val resultAlertInfoDStream: DStream[AlertInfo] = alertInfoDStream.filter(_._1).map(_._2) //
+        resultAlertInfoDStream.foreachRDD(rdd => {
+            rdd.foreachPartition(alertInfoIt => {
+                // 为了实现一分钟只产生一条预警信息, 把mid和分钟组成一个一个最终的id
+                ESUtil.insertBulk("gmall0508_coupon_alert", alertInfoIt.map(info=> (info.mid + "_" + info.ts / 1000 / 60, info)))  // Iterator[Any] -> Iterator[AlterInfo]
+            })
         })
+        
         
         ssc.start()
         ssc.awaitTermination()
