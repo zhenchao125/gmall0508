@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class PublisherController {
 
     @Autowired
     public PublisherService service;
+
     /*
     [{"id":"dau","name":"新增日活","value":1200},
         {"id":"new_mid","name":"新增设备","value":233 },
@@ -68,7 +70,7 @@ public class PublisherController {
             resultMap.put("yesterday", yesterday);
             return JSON.toJSONString(resultMap);
 
-        } else if("order_amount".equals(id)){
+        } else if ("order_amount".equals(id)) {
             Map<String, BigDecimal> today = service.getHourAmount(date);
             Map<String, BigDecimal> yesterday = service.getHourAmount(getYesterday(date));
 
@@ -80,6 +82,19 @@ public class PublisherController {
 
             return "";
         }
+
+    }
+
+    @GetMapping("/sale_detail")
+    public String getSaleDetal(@RequestParam("date") String date,
+                               @RequestParam("startpage") long startpage,
+                               @RequestParam("size") long size,
+                               @RequestParam("keyword") String keyword) throws IOException {
+        Map<String, Object> genderMap = service.getSaleDetailAndAggResultByField(date, startpage, size, "user_gender", keyword, 2);
+        Map<String, Object> ageMap = service.getSaleDetailAndAggResultByField(date, startpage, size, "user_age", keyword, 100);
+        System.out.println(JSON.toJSONString(genderMap));
+        System.out.println(JSON.toJSONString(ageMap));
+        return "ok";
 
     }
 
@@ -97,4 +112,6 @@ public class PublisherController {
 {"yesterday":{"11":383,"12":123,"17":88,"19":200 },
 "today":{"12":38,"13":1233,"17":123,"19":688 }}
 
+
+ 	http://localhost:8070/sale_detail?date=2019-05-20&&startpage=1&&size=5&&keyword=手机小米
  */

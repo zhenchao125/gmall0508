@@ -22,6 +22,7 @@
         <module>gmall0508-realtime</module>
         <module>gmall0508-publisher</module>
         <module>gmall0508-cannal</module>
+        <module>gmall0508-hive2es</module>
     </modules>
 
     <properties>
