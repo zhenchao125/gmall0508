@@ -105,6 +105,8 @@ public class PublisherController {
 
         Map<String, Object> ageMap = service.getSaleDetailAndAggResultByField(date, startpage, size, "user_age", keyword, 100);
 
+        System.out.println(JSON.toJSONString(genderMap));
+        System.out.println(JSON.toJSONString(ageMap));
         // 1. 最终的封装的数据对象
         SaleInfo saleInfo = new SaleInfo();
 
@@ -124,6 +126,7 @@ public class PublisherController {
         Map<String, Long> genderAggMap = (Map<String, Long>)genderMap.get("aggMap");
         Option maleOption = new Option();
         maleOption.setName("男");
+        System.out.println(genderAggMap);
         maleOption.setValue(genderAggMap.get("M"));
         genderStat.addOption(maleOption);
 
@@ -164,7 +167,7 @@ public class PublisherController {
             }
         } // 10%
         saleInfo.addStat(ageStat);
-
+        System.out.println(JSON.toJSONString(saleInfo));
         return JSON.toJSONString(saleInfo);
 
     }
